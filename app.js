@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 
 
+
 const app = express();
 
 // Définir le moteur de template
@@ -10,8 +11,17 @@ app.set("view engine", "ejs");
 // Démarrer le serveur
 app.listen(3000); 
 
+// conecter à la base de données (MongoDB)
+const mongoose = 'mongodb+srv://<db_username>:<Mahdi:1234Test>@cluster0.oszwg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0;'
+
+// Middleware & Static files
+app.use(express.static("public"));
+
 app.use(morgan("tiny"));
-    
+
+
+
+// j'ai utilisé morgan à la place de cela:
 //     app.use((require, response, next) => {
 
 //     console.log("new request made");
