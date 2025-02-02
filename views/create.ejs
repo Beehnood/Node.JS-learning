@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BenTalk</title>
-</head>
-<body>
-    <nav>
-        <div class="site title">
-            <a href="/">
-                <h1>BenTalk Blog</h1>
-            </a>
-            <p>Great Way To Talk</p>
+    <%- include('./partials/head.ejs')  %>
+<body class="bg-red-100 p-4">
+    <%- include('./partials/nav.ejs')  %>
+
+    <container class="section">
+        <div class="container">
+            <h2 class="title">Créer un Nouveau Blog</h2>
+            <form>
+                <div class="field">
+                    <label class="label" for="title">Titre</label>
+                    <div class="control">
+                        <input class="input" type="text" name="title" id="title" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="snippet">Extrait</label>
+                    <div class="control">
+                        <input class="input" type="text" id="snippet" name="snippet" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="body">Contenu</label>
+                    <div class="control">
+                        <textarea class="textarea" id="body" name="body" required></textarea>
+                    </div>
+                </div>
+                <div class="control">
+                    <button class="button is-primary">Soumettre</button>
+                </div>
+            </form>
         </div>
-        <ul>
-            <li><a href="/">Blogs</a></li>
-            <li><a href="/About">About</a></li>
-            <li><a href="/blogs/create">New Subject To Talk</a></li>
-        </ul>
-    </nav>
-    <div class="blogs content">
-       <form action="">
-        <label for="title">Blog Title</label>
-        <input type="text" name="title" id="title" required>
-        <label for="snippet">Blog snippet</label>
-        <input type="text" id="snippet" name="snippet" required>
-        <label for="body"> Blog body</label>
-        <textarea type="text" id="body" name="body"required></textarea>
-        <button>Submit</button>
-       </form>
-    </div>
-    
+    </container>
+    <%- include('./partials/footer.ejs')  %>
 </body>
 </html>

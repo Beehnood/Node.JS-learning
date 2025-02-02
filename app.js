@@ -5,8 +5,15 @@ const app = express();
 app.set("view engine", "ejs");
 
 // Démarrer le serveur
-app.listen(3000, () => {
-    console.log("Serveur en écoute sur http://localhost:3000");
+app.listen(3000); 
+    
+    app.use((require, response, next) => {
+
+    console.log("new request made");
+    console.log("host: ", require.hostname);
+    console.log("path: ", require.path);
+    console.log("method: ", require.method);
+    next();
 });
 
 // Page d'accueil avec blogs

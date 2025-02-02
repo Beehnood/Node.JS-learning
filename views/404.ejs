@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
-</head>
-<body>
-    
-    <h1>404 | Ooppppssss...</h1>
-    <h2>This Page does not Exist</h2>
-    
+    <%- include('./partials/head.ejs')  %>
+<body class="has-text-centered">
+    <%- include('./partials/nav.ejs') %>
+    <container class="section">
+        <div class="container">
+            <h1 class="title is-1 has-text-danger">404 | Oops...</h1>
+            <h2 class="subtitle">Cette page n'existe pas.</h2>
+        </div>
+    </container>
+    <%- include('./partials/footer.ejs') %>
 </body>
 </html>

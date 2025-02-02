@@ -1,39 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BenTalk | <%= title %></title>
-</head>
-<body>
 
-    <nav>
-        <div class="site-title">
-            <a href="/">
-                <h1>BenTalk Blog</h1>
-            </a>
-            <p>Great Way To Talk</p>
+<%- include('./partials/head.ejs')  %>
+<body class="bg-red-100 p-4">
+
+    <%- include('./partials/nav.ejs')  %>
+
+    <container class="section">
+        <div class="container">
+            <h2 class="title is-1 has-text-primary">All Blogs</h2>
+            
+            <% if (blogs && blogs.length > 0) { %>
+                <% blogs.forEach(blog => { %>
+                    <div class="box">
+                        <h3 class="title is-4"><%= blog.title %></h3>
+                        <p class="content"><%= blog.snippet %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="notification is-warning">Aucun blog pour le moment. Revenez plus tard !</p>
+            <% } %>
         </div>
-        <ul>
-            <li><a href="/">Blogs</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/blogs/create">New Subject To Talk</a></li>
-        </ul>
-    </nav>
+    </container>
 
-    <div class="blogs-content">
-        <h2>All Blogs</h2>
-
-        <% if (blogs && blogs.length > 0) { %>
-            <% blogs.forEach(blog => { %>
-                <h3 class="title"><%= blog.title %></h3>
-                <p class="snippet"><%= blog.snippet %></p>
-            <% }) %>
-        <% } else { %>
-            <p>Aucun blog pour le moment. Revenez plus tard !</p>
-        <% } %>
-
-    </div>
+    <%- include('./partials/footer.ejs')  %>
     
 </body>
+
 </html>
