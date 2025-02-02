@@ -1,4 +1,7 @@
 const express = require("express");
+const morgan = require("morgan");
+
+
 const app = express();
 
 // Définir le moteur de template
@@ -6,15 +9,17 @@ app.set("view engine", "ejs");
 
 // Démarrer le serveur
 app.listen(3000); 
-    
-    app.use((require, response, next) => {
 
-    console.log("new request made");
-    console.log("host: ", require.hostname);
-    console.log("path: ", require.path);
-    console.log("method: ", require.method);
-    next();
-});
+app.use(morgan("tiny"));
+    
+//     app.use((require, response, next) => {
+
+//     console.log("new request made");
+//     console.log("host: ", require.hostname);
+//     console.log("path: ", require.path);
+//     console.log("method: ", require.method);
+//     next();
+// });
 
 // Page d'accueil avec blogs
 app.get("/", (req, res) => {
@@ -25,6 +30,13 @@ app.get("/", (req, res) => {
     ];
     res.render("index", { title: "Home", blogs }); // 🔹 Passer les blogs
 });
+
+// app.use((require, response, next) => {
+
+//     console.log("------------------- Ben");
+   
+//     next();
+// });
 
 // Page About
 app.get("/about", (req, res) => {
