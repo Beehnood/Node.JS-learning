@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const Blog = require("./model/blog.js");
+const { result } = require("lodash");
 
 const app = express();
 
@@ -10,6 +12,36 @@ app.set("view engine", "ejs");
 // Middleware & fichiers statiques
 app.use(express.static("public"));
 app.use(morgan("morgan"));
+
+// add blog
+app.get("/add-blog", (req, res) => {  
+    
+    const blog = new Blog({
+        title: "new blog 2",
+        snippet: "about my new blog 2",
+        body:"more about my new blog",
+    })
+    blog.save()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+    })
+
+
+
+app.get("/all-blog", (req, res) => {    
+    Blog.find()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+
+});
+
+
+app.get("/single-blog", (req, res) => {    
+    Blog.findById('67a070a48d59b49c7086e2f0')
+        .then((result)=> res.send(result)
+        .catch((err)=> console.log(err)))
+
+});
 
 // Connexion à la base de données (MongoDB)
 const mongoURI = "mongodb+srv://beny:Beny1234@cluster0.oszwg.mongodb.net/node-course?retryWrites=true&w=majority&appName=Cluster0";
