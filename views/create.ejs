@@ -7,21 +7,21 @@
     <container class="section">
         <div class="container">
             <h2 class="title">Créer un Nouveau Blog</h2>
-            <form>
+            <form action="/blogs" method="post">
                 <div class="field">
-                    <label class="label" for="title">Titre</label>
+                    <label class="label" for="title">Title</label>
                     <div class="control">
                         <input class="input" type="text" name="title" id="title" required>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label" for="snippet">Extrait</label>
+                    <label class="label" for="snippet">Blog Snippet</label>
                     <div class="control">
                         <input class="input" type="text" id="snippet" name="snippet" required>
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label" for="body">Contenu</label>
+                    <label class="label" for="body">Blog Body</label>
                     <div class="control">
                         <textarea class="textarea" id="body" name="body" required></textarea>
                     </div>

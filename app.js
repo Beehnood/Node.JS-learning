@@ -11,6 +11,7 @@ app.set("view engine", "ejs");
 
 // Middleware & fichiers statiques
 app.use(express.static("public"));
+app.use(express.urlencoded({extended: true}));
 app.use(morgan("morgan"));
 
 // ajojuter un blog
@@ -102,6 +103,15 @@ app.get("/blogs", (req, res) => {
         res.render("index", { title: "All Blogs", blogs });
       })
       .catch((err) => console.log(" Erreur lors de la récupération des blogs :", err));
+  });
+
+// Page de détails d'un blog
+  app.post("/blogs", (req, res) => {
+    const blog = new Blog(req.body);
+  
+    blog.save()
+      .then(() => res.redirect("/blogs"))
+      .catch((err) => console.log(" Erreur lors de l'ajout du blog :", err));
   });
 
 // Page de création d'un blog
