@@ -1,8 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const Blog = require("./model/blog.js");
-const {result} = require('lodash');
+const blogRoutes = require("./routes/blogRoutes");
 
 
 
@@ -13,25 +12,24 @@ app.set("view engine", "ejs");
 
 // Middleware & fichiers statiques
 app.use(express.static("public"));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 
 // ajouter un blog à la main
-  // app.get("/add-blog", (req, res) => {  
-      
-  //     const blog = new Blog({
-  //         title: "new blog 5",
-  //         snippet: "about my new blog 5",
-  //         body:"more about my new blog",
-  //     })
-  //     blog.save()
-  //         .then((result) => res.send(result))
-  //         .catch((err) => console.log(err));
-  //     })
+// app.get("/add-blog", (req, res) => {
 
+//     const blog = new Blog({
+//         title: "new blog 5",
+//         snippet: "about my new blog 5",
+//         body:"more about my new blog",
+//     })
+//     blog.save()
+//         .then((result) => res.send(result))
+//         .catch((err) => console.log(err));
+//     })
 
 // trouver tous les blogs
-// app.get("/all-blog", (req, res) => {    
+// app.get("/all-blog", (req, res) => {
 //     Blog.find()
 //         .then((result) => res.send(result))
 //         .catch((err) => console.log(err));
@@ -39,7 +37,7 @@ app.use(morgan("tiny"));
 // });
 
 // trouver un blog
-// app.get("/single-blog", (req, res) => {    
+// app.get("/single-blog", (req, res) => {
 //     Blog.findById('67a070a48d59b49c7086e2f0')
 //         .then((result)=> res.send(result)
 //         .catch((err)=> console.log(err)))
@@ -66,9 +64,9 @@ app.use(morgan("tiny"));
 //      .catch((err)=> console.log(err))
 // })
 
-
 // Connexion à la base de données (MongoDB)
-const mongoURI = "mongodb+srv://beny:Beny1234@cluster0.oszwg.mongodb.net/node-course?retryWrites=true&w=majority&appName=Cluster0";
+const mongoURI =
+  "mongodb+srv://beny:Beny1234@cluster0.oszwg.mongodb.net/node-course?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose
   .connect(mongoURI)
@@ -78,19 +76,17 @@ mongoose
   })
   .catch((err) => console.error(" Erreur de connexion MongoDB :", err));
 
-
 // Routes
 // Page d'accueil avec blogs à la main
 app.get("/", (req, res) => {
-    // Page d'accueil avec blogs à la main
-//   const blogs = [
-//     { title: "Nader trouve la NASA", snippet: "Lorem ipsum dolor sit amet..." },
-//     { title: "Ghassem découvre Git", snippet: "Lorem ipsum dolor sit amet..." },
-//     { title: "Jerard trouve LeBonCoin", snippet: "Lorem ipsum dolor sit amet..." },
-//   ];
-//   res.render("index", { title: "Home", blogs });
-    res.redirect("/blogs");
-
+  // Page d'accueil avec blogs à la main
+  //   const blogs = [
+  //     { title: "Nader trouve la NASA", snippet: "Lorem ipsum dolor sit amet..." },
+  //     { title: "Ghassem découvre Git", snippet: "Lorem ipsum dolor sit amet..." },
+  //     { title: "Jerard trouve LeBonCoin", snippet: "Lorem ipsum dolor sit amet..." },
+  //   ];
+  //   res.render("index", { title: "Home", blogs });
+  res.redirect("/blogs");
 });
 
 // Page About
@@ -98,58 +94,7 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
-// routes des blogs
-app.get("/blogs", (req, res) => {
-    Blog.find().sort({ createdAt:-1 })
-      .then((blogs) => {
-        res.render("index", { title: "All Blogs", blogs });
-      })
-      .catch((err) => console.log(" Erreur lors de la récupération des blogs :", err));
-  });
-
-// Page de détails d'un blog
-  app.post("/blogs", (req, res) => {
-    const blog = new Blog(req.body);
-  
-    blog.save()
-      .then(() => res.redirect("/blogs"))
-      .catch((err) => console.log(" Erreur lors de l'ajout du blog :", err));
-  });
-
-
-  // Page de création d'un blog
-app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "Create a new blogs" });
-});
-  
-  app.get("/blogs/:id", (req, res) => {
-    const id = req.params.id;
-  
-    Blog.findById(id)
-        .then((blog) => {
-            res.render("details", { title: "Blog Details", blog });
-        })
-        .catch((err) => {
-            console.log(" Erreur lors de la récupération du blog :", err);
-            res.status(404).render("404", { title: "Blog not found" });
-        });
-    });
-
-
- 
-
-// Page de suppression d'un blog
-app.delete("/blogs/:id", (req, res) => {
-    const id = req.params.id;
-  
-    Blog.findByIdAndDelete(id)
-      .then(result => {
-        res.json({redirect:'/blogs'})
-      })
-      .catch(err => console.log(" Erreur lors de la suppression du blog :", err));
-      
-  });
-
+app.use('/blogs', blogRoutes);
 
 
 // Redirection
