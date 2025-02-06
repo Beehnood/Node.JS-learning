@@ -2,6 +2,8 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const Blog = require("./model/blog.js");
+const {result} = require('lodash');
+
 
 
 const app = express();
@@ -12,20 +14,20 @@ app.set("view engine", "ejs");
 // Middleware & fichiers statiques
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: true}));
-app.use(morgan("morgan"));
+app.use(morgan("tiny"));
 
-// ajojuter un blog
-// app.get("/add-blog", (req, res) => {  
-    
-//     const blog = new Blog({
-//         title: "new blog 4",
-//         snippet: "about my new blog 4",
-//         body:"more about my new blog",
-//     })
-//     blog.save()
-//         .then((result) => res.send(result))
-//         .catch((err) => console.log(err));
-//     })
+// ajouter un blog à la main
+  // app.get("/add-blog", (req, res) => {  
+      
+  //     const blog = new Blog({
+  //         title: "new blog 5",
+  //         snippet: "about my new blog 5",
+  //         body:"more about my new blog",
+  //     })
+  //     blog.save()
+  //         .then((result) => res.send(result))
+  //         .catch((err) => console.log(err));
+  //     })
 
 
 // trouver tous les blogs
@@ -114,10 +116,39 @@ app.get("/blogs", (req, res) => {
       .catch((err) => console.log(" Erreur lors de l'ajout du blog :", err));
   });
 
-// Page de création d'un blog
+
+  // Page de création d'un blog
 app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "Create" });
+  res.render("create", { title: "Create a new blogs" });
 });
+  
+  app.get("/blogs/:id", (req, res) => {
+    const id = req.params.id;
+  
+    Blog.findById(id)
+        .then((blog) => {
+            res.render("details", { title: "Blog Details", blog });
+        })
+        .catch((err) => {
+            console.log(" Erreur lors de la récupération du blog :", err);
+            res.status(404).render("404", { title: "Blog not found" });
+        });
+    });
+
+
+ 
+
+// Page de suppression d'un blog
+app.delete("/blogs/:id", (req, res) => {
+    const id = req.params.id;
+  
+    Blog.findByIdAndDelete(id)
+      .then(result => console.log(result))
+      .catch(err => console.log(" Erreur lors de la suppression du blog :", err));
+      
+  });
+
+
 
 // Redirection
 // app.get("/about-us", (req, res) => {
