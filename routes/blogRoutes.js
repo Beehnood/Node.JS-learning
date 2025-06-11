@@ -11,9 +11,10 @@ router.get("/", (req, res) => {
     .then((blogs) => {
       res.render("index", { title: "All Blogs", blogs });
     })
-    .catch((err) =>
-      console.log(" Erreur lors de la récupération des blogs :", err)
-    );
+    .catch((err) => {
+      console.log(" Erreur lors de la récupération des blogs :", err);
+      res.render("index", { title: "All Blogs", blogs: [], error: "Could not load blogs at this time." });
+    });
 });
 
 // Page de détails d'un blog

@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const blogRoutes = require("./routes/blogRoutes");
 
-
+let dbAvailable = false;
 
 const app = express();
 
@@ -65,16 +65,22 @@ app.use(morgan("tiny"));
 // })
 
 // Connexion à la base de données (MongoDB)
-const mongoURI =
+const hardcodedMongoURI =
   "mongodb+srv://beny:Beny1234@cluster0.oszwg.mongodb.net/node-course?retryWrites=true&w=majority&appName=Cluster0";
+const mongoURI = process.env.MONGODB_URI || hardcodedMongoURI;
 
 mongoose
   .connect(mongoURI)
   .then(() => {
     console.log(" Connecté à la base de données !");
-    app.listen(3000, () => console.log("Serveur en écoute sur le port 3000"));
+    dbAvailable = true;
   })
-  .catch((err) => console.error(" Erreur de connexion MongoDB :", err));
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    dbAvailable = false;
+  });
+
+app.listen(3000, () => console.log("Serveur en écoute sur le port 3000"));
 
 // Routes
 // Page d'accueil avec blogs à la main
